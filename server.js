@@ -1,25 +1,28 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
+import registerRoute from "./routes/registerRoute.js";
 
+dotenv.config();
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-// Anslut till MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
-  .then(() => console.log("✅ MongoDB ansluten"))
-  .catch((err) => console.error("❌ Fel vid anslutning:", err.message));
+);
 
-// Testroute
-app.get("/", (req, res) => {
-  res.send("MongoDB-backend är igång");
-});
+app.use(express.json());
+app.use("/api/register", registerRoute);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server körs på port ${PORT}`));
+// 🔌 MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(5000, () => console.log("Server running on port 5000"));
+  })
+  .catch((err) => console.error(err));

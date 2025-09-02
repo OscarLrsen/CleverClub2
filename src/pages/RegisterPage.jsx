@@ -1,8 +1,36 @@
-export default function RegisterPage() {
+import { useState } from "react";
+import API from "../services/api";
+
+function RegisterPage() {
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await API.post("/register", form);
+      alert(res.data.message);
+    } catch (err) {
+      alert("Registration failed");
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center mt-20">
-      <h1 className="text-2xl font-bold mb-4">Registrera dig</h1>
-      {/* Lägg till registreringsformulär här */}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input name="username" placeholder="Username" onChange={handleChange} />
+      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        onChange={handleChange}
+      />
+      <button type="submit">Register</button>
+    </form>
   );
 }
+
+export default RegisterPage;
