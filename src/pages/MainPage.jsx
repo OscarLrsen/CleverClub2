@@ -1,37 +1,36 @@
-import { Link } from "react-router-dom";
+import "./MainPage.css";
 
 export default function MainPage() {
   return (
-    <div className="flex flex-col items-center text-center mt-16">
-      <h1 className="text-4xl font-bold mb-4">CleverClub</h1>
-      <p className="max-w-lg mb-6 text-gray-600">
+    <main className="mainpage-container">
+      <h1 className="mainpage-title">CleverClub</h1>
+      <p className="mainpage-subtitle">
         CleverClub är en rolig och lärorik quiz-app där du kan testa dina
         geografikunskaper och lära dig mer om världen.
       </p>
-      <button className="bg-blue-500 text-white px-6 py-2 rounded-lg mb-12 hover:bg-blue-600">
-        Börja spela gratis
-      </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
-        <div className="p-4 border rounded-lg shadow hover:shadow-md">
-          <h3 className="font-semibold">🌍 Testa dina geografikunskaper</h3>
-          <p className="text-gray-600">
+      <button className="mainpage-button">Börja spela gratis</button>
+
+      <section className="features">
+        <article className="feature-card">
+          <h3 className="feature-title">🌍 Testa dina geografikunskaper</h3>
+          <p className="feature-desc">
             Kan du placera världens länder och städer rätt?
           </p>
-        </div>
-        <div className="p-4 border rounded-lg shadow hover:shadow-md">
-          <h3 className="font-semibold">🧠 Utmanande quiz med 3 alternativ</h3>
-          <p className="text-gray-600">
-            Bara ett är rätt, hur många klarar du?
-          </p>
-        </div>
-        <div className="p-4 border rounded-lg shadow hover:shadow-md">
-          <h3 className="font-semibold">✈️ Res jorden runt från soffan</h3>
-          <p className="text-gray-600">
+        </article>
+
+        <article className="feature-card">
+          <h3 className="feature-title">🧠 Utmanande quiz med 3 alternativ</h3>
+          <p className="feature-desc">Bara ett är rätt, hur många klarar du?</p>
+        </article>
+
+        <article className="feature-card">
+          <h3 className="feature-title">✈️ Res jorden runt från soffan</h3>
+          <p className="feature-desc">
             Lär dig nya platser samtidigt som du spelar!
           </p>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
   );
 }

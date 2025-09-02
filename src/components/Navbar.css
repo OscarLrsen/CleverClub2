@@ -1,0 +1,56 @@
+.cc-navbar {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  z-index: 50;
+}
+
+.cc-navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between; /* brand till vänster, länkar till höger */
+  align-items: center;
+}
+
+.cc-brand {
+  font-weight: 800;
+  font-size: 20px;
+  text-decoration: none;
+  color: #111827;
+}
+
+.cc-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cc-link {
+  text-decoration: none;
+  color: #111827;
+  font-weight: 500;
+}
+
+.cc-link:hover {
+  text-decoration: underline;
+}
+
+/* Lite tighter på små skärmar */
+@media (max-width: 480px) {
+  .cc-navbar-inner {
+    padding: 0 16px;
+  }
+  .cc-links {
+    gap: 14px;
+  }
+  .cc-brand {
+    font-size: 18px;
+  }
+}
