@@ -10,15 +10,15 @@ export default function Navbar() {
         </Link>
 
         <nav className="cc-links">
+          <Link to="/about" className="cc-link">
+            Om oss
+          </Link>
           <Link to="/login" className="cc-link">
             Logga in
           </Link>
           <Link to="/register" className="cc-link">
             Registrera
           </Link>
-          <a href="#" className="cc-link">
-            Om oss
-          </a>
         </nav>
       </div>
     </header>
