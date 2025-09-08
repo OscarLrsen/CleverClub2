@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -9,7 +9,13 @@ import AboutUsPage from "./pages/AboutUsPage";
 export default function App() {
   return (
     <Router>
-      <Navbar />
+      <nav style={{display:"flex",gap:12,padding:12,borderBottom:"1px solid #eee"}}>
+        <Link to="/">Hem</Link>
+        <Link to="/leaderboard">Leaderboard</Link>
+        <Link to="/login">Logga in</Link>
+        <Link to="/register">Registrera</Link>
+      </nav>
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
