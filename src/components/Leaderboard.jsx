@@ -1,6 +1,6 @@
 // src/components/Leaderboard.jsx
 import { useEffect, useState } from "react";
-import { getLeaderboard } from "../api/leaderboard";
+import { getLeaderboard } from "../api/Leaderboard";
 
 export default function Leaderboard({ limit = 50, refreshMs = 10000 }) {
   const [rows, setRows] = useState([]);
