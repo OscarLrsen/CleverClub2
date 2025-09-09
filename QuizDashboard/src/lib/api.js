@@ -1,3 +1,4 @@
+// Hej Ahmed
 // En enda funktion som din klasskompis kopplar till DB/APi.
 // Byt inuti fetchQuestionsByDifficulty så den hämtar från er backend.
 //
