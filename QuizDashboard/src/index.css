@@ -1,4 +1,4 @@
-/* ===== Navbar ===== */
+/*  Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -6,10 +6,10 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;   /* 👈 sprider ut logon till vänster och resten till höger */
+  justify-content: space-between;   /* sprider ut logon till vänster och resten till höger */
   
-  max-width: 1200px;                /* 👈 centrerad wrapper */
-  margin: 0 auto;                   /* 👈 centrera navbaren */
+  max-width: 1200px;                /* centrerad wrapper */
+  margin: 0 auto;                   /* centrera navbaren */
   padding: 10px 24px;
 
   background: #ffffffb3;
@@ -132,7 +132,7 @@ body{
   background: transparent; /* ingen bakgrund på hela raden */
 }
 
-/* Vänster sida (text) */
+/* Vänster sida */
 .diff-text h3{
   margin: 0 0 6px;
   font-size: 16px;
@@ -144,7 +144,7 @@ body{
   font-size: 13px;
 }
 
-/* Höger sida (bildkortet) */
+/* Höger sida */
 .diff-media img{
   width: 100%;
   height: 150px;
@@ -160,7 +160,7 @@ body{
   outline-offset: 2px;
 }
 
-/* Knapp-stilar */
+/* Knapp stilar */
 .btn{
   appearance: none;
   border: 0;
@@ -182,7 +182,7 @@ body{
   cursor: not-allowed;
 }
 
-/* Start-knapp centrerad */
+/* Start centrerad */
 .start-row{
   display: flex;
   justify-content: center;
@@ -196,7 +196,6 @@ body{
 @media (max-width: 860px){
   .hero img{ height: 220px; }
 
-  /* På mobil: bild under texten i varje rad */
   .diff-card{
     grid-template-columns: 1fr;
     gap: 12px;
