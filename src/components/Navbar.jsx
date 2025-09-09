@@ -1,20 +1,26 @@
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-gray-100 shadow">
-      <div className="text-xl font-bold">CleverClub</div>
-      <div className="flex gap-4">
-        <Link to="/login" className="hover:underline">
-          Logga in
+    <header className="cc-navbar">
+      <div className="cc-navbar-inner">
+        <Link to="/" className="cc-brand">
+          CleverClub
         </Link>
-        <Link to="/register" className="hover:underline">
-          Registrera
-        </Link>
-        <Link to="/about" className="hover:underline">
-          Om oss
-        </Link>
+
+        <nav className="cc-links">
+          <Link to="/about" className="cc-link">
+            Om oss
+          </Link>
+          <Link to="/login" className="cc-link">
+            Logga in
+          </Link>
+          <Link to="/register" className="cc-link">
+            Registrera
+          </Link>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }
