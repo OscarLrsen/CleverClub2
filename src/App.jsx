@@ -11,18 +11,15 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Vanliga sidor med navbar */}
-        <Route
-          path="/*"
-          element={
+        <Route path="/*" element={
             <>
               <Navbar />
               <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/leaderboard" element={<LeaderboardPage />} />
-                <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/leaderboard" element={<LeaderboardPage />} />
+                <Route path="/about" element={<AboutUsPage />} />
               </Routes>
             </>
           }
@@ -30,9 +27,6 @@ export default function App() {
 
         {/* Admin-sida utan navbar */}
         <Route path="/admin" element={<AdminPanel />} />
-
-        {/* Fallback */}
-        <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
     </Router>
   );
