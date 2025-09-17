@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import logo from "../assets/Cleverclub.png";
 
 export default function Navbar() {
   return (
     <header className="cc-navbar">
       <div className="cc-navbar-inner">
         <Link to="/" className="cc-brand">
-          CleverClub
+          <img src={logo} alt="CleverClub logotyp" className="cc-logo" />
         </Link>
 
         <nav className="cc-links">

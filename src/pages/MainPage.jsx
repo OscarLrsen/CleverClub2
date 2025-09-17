@@ -1,15 +1,26 @@
 import "./MainPage.css";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/Cleverclub.png";
 
 export default function MainPage() {
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+    navigate("/login");
+  };
+
   return (
     <main className="mainpage-container">
-      <h1 className="mainpage-title">CleverClub</h1>
+      <img src={logo} alt="CleverClub logotyp" className="mainpage-logo" />
+
       <p className="mainpage-subtitle">
         CleverClub är en rolig och lärorik quiz-app där du kan testa dina
         geografikunskaper och lära dig mer om världen.
       </p>
 
-      <button className="mainpage-button">Börja spela gratis</button>
+      <button type="button" className="mainpage-button" onClick={handleStart}>
+        Börja spela gratis
+      </button>
 
       <section className="features">
         <article className="feature-card">
