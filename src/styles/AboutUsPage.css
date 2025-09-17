@@ -1,0 +1,124 @@
+/* Baslayout */
+.cc-about {
+  --bg: #f9fafb;
+  --bg-soft: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --accent: #3b82f6;
+  --ring: rgba(59, 130, 246, 0.35);
+
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  padding: clamp(16px, 2vw, 24px);
+}
+
+/* Header utan box */
+.cc-about-header {
+  max-width: 900px;
+  margin: 0 auto clamp(20px, 4vw, 40px);
+  text-align: center;
+}
+
+.cc-about-header h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.cc-about-tagline {
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Innehåll */
+.cc-about-content {
+  max-width: 900px;
+  margin: clamp(20px, 4vw, 40px) auto 80px;
+}
+
+.cc-about-card {
+  background: var(--bg-soft);
+  border-radius: 20px;
+  padding: clamp(18px, 3.2vw, 28px);
+  line-height: 1.7;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+.cc-about-card p {
+  margin: 0 0 16px 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  color: var(--text);
+}
+
+.cc-about-card strong {
+  color: var(--accent);
+}
+
+.cc-about-quote {
+  margin: 20px 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--accent);
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text);
+  border-radius: 8px;
+  font-style: italic;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.12);
+}
+
+/* Highlights-rad */
+.cc-about-highlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+@media (min-width: 720px) {
+  .cc-about-highlights {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cc-about-highlight {
+  background: var(--bg-soft);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cc-about-highlight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1), 0 0 0 6px var(--ring),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.cc-about-highlight h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.cc-about-highlight p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Focus-stil för tangentbordsnavigering */
+.cc-about a,
+.cc-about button,
+.cc-about [tabindex] {
+  outline: none;
+}
+.cc-about a:focus-visible,
+.cc-about button:focus-visible,
+.cc-about [tabindex]:focus-visible {
+  box-shadow: 0 0 0 4px var(--ring);
+  border-radius: 10px;
+}

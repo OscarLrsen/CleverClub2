@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import "../styles/RegisterPage.css";
 
 function RegisterPage() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });

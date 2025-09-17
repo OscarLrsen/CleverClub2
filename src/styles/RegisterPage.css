@@ -1,0 +1,102 @@
+/* Layout */
+.reg-page {
+  min-height: calc(100vh - 64px); /* justera om din navbar är annan höjd */
+  background: #ffffff;
+}
+
+.reg-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+/* Titel */
+.reg-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 8px 0 28px;
+  color: #0f172a; /* nästan svart */
+}
+
+/* Form */
+.reg-form {
+  max-width: 640px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+/* Inputs */
+.field input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #e5e7eb; /* ljus kant */
+  background: #f3f4f6; /* ljus grå bakgrund som i bilden */
+  border-radius: 12px;
+  padding: 0 14px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.field input:focus {
+  border-color: #d1d5db;
+}
+
+/* Knapp */
+.reg-button {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: #3b82f6; /* blå som i bilden */
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: filter 0.15s ease, transform 0.02s ease;
+}
+
+.reg-button:hover {
+  filter: brightness(0.97);
+}
+.reg-button:active {
+  transform: translateY(1px);
+}
+
+/* Footnote / länk under knappen */
+.reg-footnote {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 14px;
+}
+
+.reg-footnote a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.reg-footnote a:hover {
+  border-bottom-color: #6b7280;
+}
+
+/* Responsiv spacing */
+@media (min-width: 1024px) {
+  .reg-container {
+    padding-top: 56px;
+  }
+  .reg-title {
+    font-size: 30px;
+  }
+}
