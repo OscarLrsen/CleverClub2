@@ -21,15 +21,13 @@ export default function QuizRun() {
     questions,
     result,
     submittedAnswers,
-    goHome, // <-- från provider
+    goHome,
   } = useQuiz();
 
   const navigate = useNavigate();
 
-  // Robust back-handler: nolla state + navigera hem (/)
   const backToDifficulty = () => {
-    goHome(); // nolla allt quiz-state
-    // liten micro-delay låter react-router byta vy stabilt
+    goHome();
     setTimeout(() => {
       navigate("/", { replace: true });
       window.scrollTo(0, 0);
@@ -80,21 +78,11 @@ export default function QuizRun() {
     );
   }
 
-  const optionLabel = (opt) =>
-    typeof opt === "string" ? opt : opt?.text ?? "";
-  const optionKey = (opt, i) =>
-    typeof opt === "string" ? `s-${i}` : opt?.id ?? `o-${i}`;
+  const optionLabel = (opt) => (typeof opt === "string" ? opt : opt?.text ?? "");
   const danger = secondsLeft <= 3;
 
-  // Visuell highlight direkt om man vill (i dev när correctAnswerId finns)
-  const classForOption = (opt, i) => {
-    const id = typeof opt === "string" ? null : opt?.id;
-    if (selected == null) return "";
-    if (!q.correctAnswerId) return selected === i ? "selected" : "";
-    if (id === q.correctAnswerId) return "correct";
-    if (selected === i && id !== q.correctAnswerId) return "incorrect";
-    return "";
-  };
+  // Vi har inte facit i spelvyn → markera bara valt alternativ
+  const classForOption = (_opt, i) => (selected === i ? "selected" : "");
 
   return (
     <div className="quiz-wrap">
@@ -116,10 +104,7 @@ export default function QuizRun() {
       </div>
 
       <div className="progress">
-        <div
-          className="progress-bar"
-          style={{ width: `${progressPct}%` }}
-        />
+        <div className="progress-bar" style={{ width: `${progressPct}%` }} />
       </div>
 
       <h2 className="quiz-title">{q?.text ?? ""}</h2>
@@ -130,7 +115,7 @@ export default function QuizRun() {
           const cls = classForOption(opt, i);
           return (
             <button
-              key={optionKey(opt, i)}
+              key={`opt-${i}`}
               type="button"
               className={`option ${cls}`}
               onClick={() => selectOption(i)}
@@ -143,20 +128,10 @@ export default function QuizRun() {
       </div>
 
       <div className="quiz-actions">
-        <button
-          className="btn light"
-          type="button"
-          onClick={skip}
-          disabled={!canSkip}
-        >
+        <button className="btn light" type="button" onClick={skip} disabled={!canSkip}>
           Hoppa över
         </button>
-        <button
-          className="btn primary"
-          type="button"
-          onClick={next}
-          disabled={selected == null}
-        >
+        <button className="btn primary" type="button" onClick={next} disabled={selected == null}>
           Nästa
         </button>
       </div>
@@ -165,30 +140,45 @@ export default function QuizRun() {
 }
 
 /*  Resultatsida  */
-function ResultsView({
-  questions,
-  result,
-  score,
-  submittedAnswers,
-  onBackToDifficulty,
-}) {
-  // Snabb lookup: questionId breakdown
+function ResultsView({ questions, result, score, submittedAnswers, onBackToDifficulty }) {
+  // breakdown från backend: [{ questionId, selectedIndex, correctIndex, isCorrect }]
   const byQ = useMemo(
-    () => Object.fromEntries((result || []).map((r) => [r.questionId, r])),
+    () => Object.fromEntries((Array.isArray(result) ? result : []).map((r) => [r.questionId, r])),
     [result]
   );
 
-  const optionText = (q, idOrNull) => {
-    if (!idOrNull) return "Not answered";
-    const opt = (q?.options || []).find((o) =>
-      typeof o === "string" ? false : o.id === idOrNull
-    );
-    return opt ? (typeof opt === "string" ? opt : opt.text) : "Not answered";
+  // options är string[] → hämta text via index
+  const optionTextByIndex = (q, idx) => {
+    if (idx == null || idx < 0) return "Not answered";
+    const arr = q?.options || [];
+    const val = arr[idx];
+    return typeof val === "string" ? val : val?.text ?? "Not answered";
   };
+
+  // Räkna antal rätt (fallbackar till submittedAnswers om breakdown saknas)
+  const correctCount = useMemo(() => {
+    return (questions || []).reduce((acc, q) => {
+      const b = byQ[q.id] || {};
+      const selectedIndex =
+        typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
+      const correctIndex =
+        typeof b.correctIndex === "number" ? b.correctIndex : null;
+
+      const isCorrect =
+        typeof b.isCorrect === "boolean"
+          ? b.isCorrect
+          : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
+
+      return acc + (isCorrect ? 1 : 0);
+    }, 0);
+  }, [questions, byQ, submittedAnswers]);
 
   return (
     <div className="quiz-wrap">
-      <h2 className="quiz-title">Klart! 🎉</h2>
+      <h2 className="quiz-title">Klart!</h2>
+      <p className="quiz-score" style={{ marginTop: 6 }}>
+        Du hade <strong>{correctCount}</strong> av <strong>{questions.length}</strong> rätt
+      </p>
       <p className="quiz-score">Poäng: {score}</p>
 
       <div
@@ -197,33 +187,25 @@ function ResultsView({
       >
         {questions.map((q) => {
           const b = byQ[q.id] || {};
-          const selectedId = b.selectedAnswerId ?? submittedAnswers?.[q.id] ?? null;
-          const correctId = b.correctAnswerId ?? q.correctAnswerId ?? null;
+          const selectedIndex =
+            typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
+          const correctIndex = typeof b.correctIndex === "number" ? b.correctIndex : null;
 
           const isCorrect =
             typeof b.isCorrect === "boolean"
               ? b.isCorrect
-              : selectedId && correctId
-              ? selectedId === correctId
-              : false;
+              : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
 
-          const userText = optionText(q, selectedId);
-          const correctText = optionText(q, correctId);
+          const userText = optionTextByIndex(q, selectedIndex);
+          const correctText = optionTextByIndex(q, correctIndex);
 
           return (
             <div
               key={q.id}
               className={`result-item ${isCorrect ? "correct" : "incorrect"}`}
-              style={{
-                padding: 12,
-                borderRadius: 12,
-                border: "1px solid var(--border)",
-              }}
+              style={{ padding: 12, borderRadius: 12, border: "1px solid var(--border)" }}
             >
-              <div
-                className="question"
-                style={{ fontWeight: 700, marginBottom: 6 }}
-              >
+              <div className="question" style={{ fontWeight: 700, marginBottom: 6 }}>
                 {q.text}
               </div>
               <div className="user-answer">Ditt svar: {userText}</div>
@@ -233,15 +215,7 @@ function ResultsView({
         })}
       </div>
 
-      {/* Knapp för att gå tillbaka till svårighetsväljaren */}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          justifyContent: "center",
-          marginTop: 16,
-        }}
-      >
+      <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 16 }}>
         <button className="btn light" type="button" onClick={onBackToDifficulty}>
           Tillbaka till svårighetsväljaren
         </button>
@@ -249,3 +223,4 @@ function ResultsView({
     </div>
   );
 }
+
