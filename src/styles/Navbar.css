@@ -15,15 +15,24 @@
   width: 100%;
   padding: 0 20px;
   display: flex;
-  justify-content: space-between; /* brand till vänster, länkar till höger */
+  justify-content: space-between;
   align-items: center;
 }
 
 .cc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 800;
   font-size: 20px;
   text-decoration: none;
   color: #111827;
+}
+
+.cc-logo {
+  height: 60px;
+  width: auto;
+  display: block;
 }
 
 .cc-links {

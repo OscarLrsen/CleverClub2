@@ -6,6 +6,13 @@
   margin-top: 72px;
 }
 
+.mainpage-logo {
+  display: block;
+  margin: 0 auto 12px; /* center + lite luft under */
+  height: 160px; /* justera storlek efter smak (t.ex. 56–96px) */
+  width: auto;
+}
+
 .mainpage-title {
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 800;
