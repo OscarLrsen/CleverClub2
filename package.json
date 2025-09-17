@@ -5,16 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:quiz": "npm --prefix QuizDashboard run dev",
-    "dev:both": "concurrently \"npm run dev\" \"npm run dev:quiz\"",
     "build": "vite build",
-    "build:quiz": "npm --prefix QuizDashboard run build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "preview:quiz": "npm --prefix QuizDashboard run preview",
-    "install:all": "npm install && npm --prefix QuizDashboard install"
+    "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongodb": "^6.19.0",
+    "mongoose": "^8.18.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.2"
@@ -24,7 +25,6 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
-    "concurrently": "^9.0.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

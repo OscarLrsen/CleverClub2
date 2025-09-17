@@ -1,27 +1,53 @@
 import { Link } from "react-router-dom";
-import "./Navbar.css";
-import logo from "../assets/Cleverclub.png";
+import "../styles/Navbar.css";
 
-export default function Navbar() {
+function Navbar({ loggedInUser, onLogout }) {
   return (
-    <header className="cc-navbar">
+    <nav className="cc-navbar">
       <div className="cc-navbar-inner">
-        <Link to="/" className="cc-brand">
-          <img src={logo} alt="CleverClub logotyp" className="cc-logo" />
+        <Link to="/" className="cc-brand" id="cc-brand">
+          Cluewalk
         </Link>
 
-        <nav className="cc-links">
-          <Link to="/about" className="cc-link">
+        <div className="cc-links" id="cc-links">
+          <Link to="/" className="cc-link" id="nav-home">
+            Hem
+          </Link>
+          <Link to="/leaderboard" className="cc-link" id="nav-leaderboard">
+            Topplista
+          </Link>
+          <Link to="/about" className="cc-link" id="nav-about">
             Om oss
           </Link>
-          <Link to="/login" className="cc-link">
-            Logga in
-          </Link>
-          <Link to="/register" className="cc-link">
-            Registrera
-          </Link>
-        </nav>
+
+          {loggedInUser ? (
+            <>
+              <span className="cc-link" id="nav-user">
+                Inloggad som: {loggedInUser.username}
+              </span>
+              {loggedInUser.role === "admin" && (
+                <Link to="/admin" className="cc-link" id="nav-admin">
+                  Admin
+                </Link>
+              )}
+              <button className="cc-link" id="nav-logout" onClick={onLogout}>
+                Logga ut
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="cc-link" id="nav-login">
+                Logga in
+              </Link>
+              <Link to="/register" className="cc-link" id="nav-register">
+                Registrera
+              </Link>
+            </>
+          )}
+        </div>
       </div>
-    </header>
+    </nav>
   );
 }
+
+export default Navbar;
