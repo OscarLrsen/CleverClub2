@@ -206,6 +206,21 @@ body{
 }
 
 
+.timer { font-size: 14px; font-weight: 600; color: #374151; }
+.timer.danger { color: #ef4444; font-weight: 700; }
+
+.option.correct { border-color: #16a34a; background: #ecfdf5; }
+.option.incorrect { border-color: #ef4444; background: #fef2f2; }
+.option.selected { outline: 2px solid #111827; }
+.option:disabled { opacity: .85; cursor: not-allowed; }
+
+/* Resultatkort */
+.result-item.correct { border-color: #16a34a; background: #ecfdf5; }
+.result-item.incorrect { border-color: #ef4444; background: #fef2f2; }
+
+
+
+
 
 /* ===== Quiz Run ===== */
 .quiz-wrap{ max-width: 900px; margin: 0 auto; }
