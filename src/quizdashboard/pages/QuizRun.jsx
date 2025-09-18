@@ -11,14 +11,14 @@ function QuizRun() {
     loading,
     error,
     finished,
-    score,
     secondsLeft,
     canSkip,
     selectOption,
     next,
     skip,
     questions,
-    result,
+    result,           // ← från servern
+    score,            // ← från servern
     submittedAnswers,
     goHome,
   } = useQuiz();
@@ -61,8 +61,8 @@ function QuizRun() {
     return (
       <ResultsView
         questions={questions}
-        result={result}
-        score={score}
+        result={result}                // ← breakdown
+        score={score}                  // ← totalpoäng
         submittedAnswers={submittedAnswers}
         onBackToDifficulty={backToDifficulty}
       />
@@ -136,10 +136,14 @@ function QuizRun() {
   );
 }
 
-/*  Resultatsida  */
+/* Resultatsida — använder breakdown från servern (/api/attempts) */
 function ResultsView({ questions, result, score, submittedAnswers, onBackToDifficulty }) {
+  // Map: questionId -> breakdown-rad
   const byQ = useMemo(
-    () => Object.fromEntries((Array.isArray(result) ? result : []).map((r) => [r.questionId, r])),
+    () =>
+      Object.fromEntries(
+        (Array.isArray(result) ? result : []).map((r) => [r.questionId, r])
+      ),
     [result]
   );
 
@@ -151,26 +155,18 @@ function ResultsView({ questions, result, score, submittedAnswers, onBackToDiffi
   };
 
   const correctCount = useMemo(() => {
-    return (questions || []).reduce((acc, q) => {
-      const b = byQ[q.id] || {};
-      const selectedIndex =
-        typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
-      const correctIndex = typeof b.correctIndex === "number" ? b.correctIndex : null;
-
-      const isCorrect =
-        typeof b.isCorrect === "boolean"
-          ? b.isCorrect
-          : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
-
-      return acc + (isCorrect ? 1 : 0);
-    }, 0);
-  }, [questions, byQ, submittedAnswers]);
+    if (Array.isArray(result) && result.length > 0) {
+      return result.reduce((acc, r) => acc + (r.isCorrect ? 1 : 0), 0);
+    }
+    return 0;
+  }, [result]);
 
   return (
     <div className="quiz-wrap">
       <h2 className="quiz-title">Klart!</h2>
       <p className="quiz-score" style={{ marginTop: 6 }}>
-        Du hade <strong>{correctCount}</strong> av <strong>{questions.length}</strong> rätt
+        Du hade <strong>{correctCount}</strong> av{" "}
+        <strong>{questions.length}</strong> rätt
       </p>
       <p className="quiz-score">Poäng: {score}</p>
 
@@ -181,13 +177,18 @@ function ResultsView({ questions, result, score, submittedAnswers, onBackToDiffi
         {questions.map((q) => {
           const b = byQ[q.id] || {};
           const selectedIndex =
-            typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
-          const correctIndex = typeof b.correctIndex === "number" ? b.correctIndex : null;
+            typeof b.selectedIndex === "number"
+              ? b.selectedIndex
+              : submittedAnswers?.[q.id] ?? null;
+          const correctIndex =
+            typeof b.correctIndex === "number" ? b.correctIndex : null;
 
           const isCorrect =
             typeof b.isCorrect === "boolean"
               ? b.isCorrect
-              : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
+              : selectedIndex != null &&
+                correctIndex != null &&
+                selectedIndex === correctIndex;
 
           const userText = optionTextByIndex(q, selectedIndex);
           const correctText = optionTextByIndex(q, correctIndex);
