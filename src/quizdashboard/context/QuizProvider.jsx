@@ -10,7 +10,7 @@ export default function QuizProvider({ children }) {
   const [orderPos, setOrderPos] = useState(0);
 
   const [selected, setSelected] = useState(null);     // valt options-index
-  const [answers, setAnswers] = useState({});         // { questionIndex: { questionId, selectedIndex } }
+  const [answers, setAnswers] = useState({});         // questionIndex: questionId, selectedIndex
 
   const [score, setScore] = useState(0);
   const [result, setResult] = useState([]);           // breakdown från servern

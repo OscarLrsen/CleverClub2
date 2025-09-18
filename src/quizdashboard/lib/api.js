@@ -1,8 +1,7 @@
 // src/quizdashboard/lib/api.js
-// Endpoints (från din server):
-// GET  /api/questions?difficulty=latt|medel|svar&limit=5
-// POST /api/attempts  { username, difficulty?, answers:[{ questionId, selectedIndex }] }
-// GET  /api/leaderboard?difficulty=...
+// Endpoints
+// GET  /api/questions?difficulty=latt, medel, svar & limit=5
+// POST /api/attempts  username, difficulty, answers:questionId, selectedIndex
 
 // Använd env om den finns, annars localhost:5000
 const BASE = import.meta?.env?.VITE_API_URL || "http://localhost:5000";
@@ -77,22 +76,6 @@ export async function submitQuiz({ username, difficulty, answers }) {
   };
 }
 
-/**
- * Hämta leaderboard (valfritt).
- */
-export async function getLeaderboard({ difficulty, limit = 20 } = {}) {
-  const u = new URL("/api/leaderboard", BASE);
-  const d = normDifficulty(difficulty);
-  if (d) u.searchParams.set("difficulty", d);
-  u.searchParams.set("limit", String(limit));
-
-  const res = await fetch(u.toString());
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Kunde inte hämta leaderboard: ${text.slice(0, 120)}`);
-  }
-  return res.json();
-}
 
 /* -------- Helpers -------- */
 function normalizeQuestionFromMongo(doc) {
@@ -104,6 +87,6 @@ function normalizeQuestionFromMongo(doc) {
     text: String(doc.text ?? ""),
     options: Array.isArray(doc.options) ? doc.options.map(toStr) : [],
     difficulty: doc.difficulty ?? null,
-    // correctIndex skickas inte från /api/questions (server-rättning används).
+    // correctIndex skickas inte från /api/questions (server-rättning används)
   };
 }

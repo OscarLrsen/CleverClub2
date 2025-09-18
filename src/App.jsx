@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
@@ -10,8 +9,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// IMPORTERA din dashboard-layout + sidor/komponenter:
-import QuizDashboardLayout from "./quizdashboard/DashboardLayout"; // eller ./quizdashboard/DashboardLayout
+import QuizDashboardLayout from "./quizdashboard/DashboardLayout";
 import Hero from "./quizdashboard/components/Hero";
 import DifficultySelect from "./quizdashboard/components/DifficultySelect";
 import QuizRun from "./quizdashboard/pages/QuizRun";

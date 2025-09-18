@@ -13,7 +13,7 @@ function Logo() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { difficulty } = useQuiz(); // visar vald svårighet som chip
+  const { difficulty } = useQuiz(); // visar vald svårighet
 
   return (
     <header className="navbar">

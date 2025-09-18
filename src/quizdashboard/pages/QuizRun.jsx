@@ -17,8 +17,8 @@ function QuizRun() {
     next,
     skip,
     questions,
-    result,           // ← från servern
-    score,            // ← från servern
+    result,           // ← från mongodb
+    score,            // ← från mongnodb
     submittedAnswers,
     goHome,
   } = useQuiz();
@@ -136,9 +136,9 @@ function QuizRun() {
   );
 }
 
-/* Resultatsida — använder breakdown från servern (/api/attempts) */
+/* Resultatsida — använder breakdown från servern api/attempts */
 function ResultsView({ questions, result, score, submittedAnswers, onBackToDifficulty }) {
-  // Map: questionId -> breakdown-rad
+  // Map: questionId breakdown
   const byQ = useMemo(
     () =>
       Object.fromEntries(
