@@ -1,11 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import useQuiz from "../hooks/useQuiz";
-import DifficultyCard from "./DifficultyCard";
-import easy from "../assets/easy.jpg";
-import medium from "../assets/medium.jpg";
-import hard from "../assets/hard.jpg";
+import DifficultyCard from "../components/DifficultyCard";
+
+import easy from "../../assets/easy.jpg";
+import medium from "../../assets/medium.jpg";
+import hard from "../../assets/hard.jpg";
 
 export default function DifficultySelect({ onStart }) {
   const { difficulty, setDifficulty } = useQuiz();
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+    if (!difficulty) return;
+    if (typeof onStart === "function") onStart();
+    else navigate("/quizdashboard/quiz");
+  };
 
   return (
     <section className="select-wrap">
@@ -40,11 +49,7 @@ export default function DifficultySelect({ onStart }) {
       </div>
 
       <div className="start-row">
-        <button
-          className="btn primary"
-          disabled={!difficulty}
-          onClick={onStart}
-        >
+        <button className="btn primary" disabled={!difficulty} onClick={handleStart}>
           Starta Quiz
         </button>
       </div>

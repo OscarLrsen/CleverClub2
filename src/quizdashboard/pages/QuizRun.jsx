@@ -1,9 +1,8 @@
-// src/pages/QuizRun.jsx
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import useQuiz from "../hooks/useQuiz";
 
-export default function QuizRun() {
+function QuizRun() {
   const {
     currentQuestion: q,
     total,
@@ -12,14 +11,14 @@ export default function QuizRun() {
     loading,
     error,
     finished,
-    score,
     secondsLeft,
     canSkip,
     selectOption,
     next,
     skip,
     questions,
-    result,
+    result,           // ← från mongodb
+    score,            // ← från mongnodb
     submittedAnswers,
     goHome,
   } = useQuiz();
@@ -29,7 +28,7 @@ export default function QuizRun() {
   const backToDifficulty = () => {
     goHome();
     setTimeout(() => {
-      navigate("/", { replace: true });
+      navigate("/quizdashboard", { replace: true });
       window.scrollTo(0, 0);
     }, 0);
   };
@@ -62,8 +61,8 @@ export default function QuizRun() {
     return (
       <ResultsView
         questions={questions}
-        result={result}
-        score={score}
+        result={result}                // ← breakdown
+        score={score}                  // ← totalpoäng
         submittedAnswers={submittedAnswers}
         onBackToDifficulty={backToDifficulty}
       />
@@ -80,8 +79,6 @@ export default function QuizRun() {
 
   const optionLabel = (opt) => (typeof opt === "string" ? opt : opt?.text ?? "");
   const danger = secondsLeft <= 3;
-
-  // Vi har inte facit i spelvyn → markera bara valt alternativ
   const classForOption = (_opt, i) => (selected === i ? "selected" : "");
 
   return (
@@ -121,7 +118,7 @@ export default function QuizRun() {
               onClick={() => selectOption(i)}
             >
               <span className="dot" aria-hidden="true" />
-              <span className="label">{label}</span>
+              <span className="opt-label">{label}</span>
             </button>
           );
         })}
@@ -139,15 +136,17 @@ export default function QuizRun() {
   );
 }
 
-/*  Resultatsida  */
+/* Resultatsida — använder breakdown från servern api/attempts */
 function ResultsView({ questions, result, score, submittedAnswers, onBackToDifficulty }) {
-  // breakdown från backend: [{ questionId, selectedIndex, correctIndex, isCorrect }]
+  // Map: questionId breakdown
   const byQ = useMemo(
-    () => Object.fromEntries((Array.isArray(result) ? result : []).map((r) => [r.questionId, r])),
+    () =>
+      Object.fromEntries(
+        (Array.isArray(result) ? result : []).map((r) => [r.questionId, r])
+      ),
     [result]
   );
 
-  // options är string[] → hämta text via index
   const optionTextByIndex = (q, idx) => {
     if (idx == null || idx < 0) return "Not answered";
     const arr = q?.options || [];
@@ -155,29 +154,19 @@ function ResultsView({ questions, result, score, submittedAnswers, onBackToDiffi
     return typeof val === "string" ? val : val?.text ?? "Not answered";
   };
 
-  // Räkna antal rätt (fallbackar till submittedAnswers om breakdown saknas)
   const correctCount = useMemo(() => {
-    return (questions || []).reduce((acc, q) => {
-      const b = byQ[q.id] || {};
-      const selectedIndex =
-        typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
-      const correctIndex =
-        typeof b.correctIndex === "number" ? b.correctIndex : null;
-
-      const isCorrect =
-        typeof b.isCorrect === "boolean"
-          ? b.isCorrect
-          : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
-
-      return acc + (isCorrect ? 1 : 0);
-    }, 0);
-  }, [questions, byQ, submittedAnswers]);
+    if (Array.isArray(result) && result.length > 0) {
+      return result.reduce((acc, r) => acc + (r.isCorrect ? 1 : 0), 0);
+    }
+    return 0;
+  }, [result]);
 
   return (
     <div className="quiz-wrap">
       <h2 className="quiz-title">Klart!</h2>
       <p className="quiz-score" style={{ marginTop: 6 }}>
-        Du hade <strong>{correctCount}</strong> av <strong>{questions.length}</strong> rätt
+        Du hade <strong>{correctCount}</strong> av{" "}
+        <strong>{questions.length}</strong> rätt
       </p>
       <p className="quiz-score">Poäng: {score}</p>
 
@@ -188,13 +177,18 @@ function ResultsView({ questions, result, score, submittedAnswers, onBackToDiffi
         {questions.map((q) => {
           const b = byQ[q.id] || {};
           const selectedIndex =
-            typeof b.selectedIndex === "number" ? b.selectedIndex : submittedAnswers?.[q.id] ?? null;
-          const correctIndex = typeof b.correctIndex === "number" ? b.correctIndex : null;
+            typeof b.selectedIndex === "number"
+              ? b.selectedIndex
+              : submittedAnswers?.[q.id] ?? null;
+          const correctIndex =
+            typeof b.correctIndex === "number" ? b.correctIndex : null;
 
           const isCorrect =
             typeof b.isCorrect === "boolean"
               ? b.isCorrect
-              : selectedIndex != null && correctIndex != null && selectedIndex === correctIndex;
+              : selectedIndex != null &&
+                correctIndex != null &&
+                selectedIndex === correctIndex;
 
           const userText = optionTextByIndex(q, selectedIndex);
           const correctText = optionTextByIndex(q, correctIndex);
@@ -224,3 +218,4 @@ function ResultsView({ questions, result, score, submittedAnswers, onBackToDiffi
   );
 }
 
+export default QuizRun;

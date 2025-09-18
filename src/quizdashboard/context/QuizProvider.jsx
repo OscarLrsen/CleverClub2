@@ -9,16 +9,15 @@ export default function QuizProvider({ children }) {
   const [order, setOrder] = useState([]);
   const [orderPos, setOrderPos] = useState(0);
 
-  const [selected, setSelected] = useState(null); // valt options-index
-  const [answers, setAnswers] = useState({});     // { questionIndex: { questionId, selectedIndex } }
+  const [selected, setSelected] = useState(null);     // valt options-index
+  const [answers, setAnswers] = useState({});         // questionIndex: questionId, selectedIndex
 
   const [score, setScore] = useState(0);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState([]);           // breakdown från servern
   const [submittedAnswers, setSubmittedAnswers] = useState({});
   const [finished, setFinished] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   // Timer
@@ -100,15 +99,15 @@ export default function QuizProvider({ children }) {
     }
   }, [difficulty, total, loading, startQuiz]);
 
-  // FINISH
+  // FINISH – rätta och logga via backend (/api/attempts)
   const finishQuiz = useCallback(
     async (latest = []) => {
       setFinished(true);
-      setSubmitting(true);
       setError(null);
       stopTimer();
 
       try {
+        // bygg ordnad lista med svar
         const payloadAnswers = Object.keys(answers)
           .map((k) => Number(k))
           .sort((a, b) => a - b)
@@ -116,22 +115,28 @@ export default function QuizProvider({ children }) {
 
         const toSend = payloadAnswers.concat(latest || []).filter(Boolean);
 
-        // spara snapshot för resultatsidan
+        // spara snapshot för resultatsidan (så vi kan visa "Ditt svar")
         setSubmittedAnswers(
           Object.fromEntries(toSend.map((a) => [a.questionId, a.selectedIndex]))
         );
 
+        // hämta användarnamn (om du har user i localStorage)
+        const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+        const username =
+          currentUser?.username || currentUser?.name || currentUser?.email || "Guest";
+
+        // rättning + loggning i Mongo
         const res = await submitQuiz({
+          username,
           difficulty: difficulty || "easy",
           answers: toSend,
         });
+
         setScore(Number(res?.score ?? 0));
         setResult(Array.isArray(res?.breakdown) ? res.breakdown : []);
       } catch (e) {
         console.error(e);
         setError(e?.message || "Kunde inte spara/räkna resultat");
-      } finally {
-        setSubmitting(false);
       }
     },
     [answers, difficulty, stopTimer]
@@ -163,7 +168,7 @@ export default function QuizProvider({ children }) {
     [orderPos, order, answers, resetTimer, finishQuiz]
   );
 
-  // Timeout
+  // Timeout → auto-spara “obesvarad” och gå vidare
   const handleTimeout = useCallback(() => {
     let snapshot = answers;
     if (!Object.prototype.hasOwnProperty.call(answers, currentQuestionIndex)) {
@@ -218,7 +223,7 @@ export default function QuizProvider({ children }) {
       ...answers,
       [currentQuestionIndex]: {
         questionId: q.id,
-        selectedIndex: selected, // <-- skickar index istället för svar-id
+        selectedIndex: selected, // skickar index, inte svar-id
       },
     };
 
@@ -256,7 +261,6 @@ export default function QuizProvider({ children }) {
       submittedAnswers,
       finished,
       loading,
-      submitting,
       error,
       secondsLeft,
       canSkip,
@@ -278,7 +282,6 @@ export default function QuizProvider({ children }) {
       submittedAnswers,
       finished,
       loading,
-      submitting,
       error,
       secondsLeft,
       canSkip,

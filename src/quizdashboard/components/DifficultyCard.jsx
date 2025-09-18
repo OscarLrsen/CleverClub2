@@ -8,7 +8,10 @@ export default function DifficultyCard({ title, subtitle, img, selected, onSelec
           Välj
         </button>
       </div>
-      <img src={img} alt={title} className="diff-img" />
+
+      <div className="diff-media">
+        <img src={img} alt={title} />
+      </div>
     </div>
   );
 }

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import useQuiz from "../hooks/useQuiz"; 
+import useQuiz from "../hooks/useQuiz";
 
 function Logo() {
-
   return (
     <div className="logo">
       <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
@@ -14,7 +13,7 @@ function Logo() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { difficulty } = useQuiz(); // visar vald svårighet som chip
+  const { difficulty } = useQuiz(); // visar vald svårighet
 
   return (
     <header className="navbar">
@@ -30,12 +29,18 @@ export default function Navbar() {
       </button>
 
       <nav className={`nav-links ${open ? "open" : ""}`}>
-        <a href="#" className="nav-link" aria-current="page">Hem</a>
-        <a href="#" className="nav-link">Leaderboard</a>   
+        <a href="#" className="nav-link" aria-current="page">
+          Hem
+        </a>
+        <a href="#" className="nav-link">
+          Leaderboard
+        </a>
       </nav>
 
       <div className="nav-right">
-        {difficulty && <span className="chip">Svårighet: {labelOf(difficulty)}</span>}
+        {difficulty && (
+          <span className="chip">Svårighet: {labelOf(difficulty)}</span>
+        )}
 
         <div className="user">
           <button className="ghost-btn">Logga ut</button>

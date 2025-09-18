@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import MainPage from "./pages/MainPage";
@@ -9,8 +9,23 @@ import AboutUsPage from "./pages/AboutUsPage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-export default function App() {
+import QuizDashboardLayout from "./quizdashboard/DashboardLayout";
+import Hero from "./quizdashboard/components/Hero";
+import DifficultySelect from "./quizdashboard/components/DifficultySelect";
+import QuizRun from "./quizdashboard/pages/QuizRun";
+
+function DashboardHome() {
+  return (
+    <div className="container">
+      <Hero />
+      <DifficultySelect />
+    </div>
+  );
+}
+
+function AppInner() {
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -27,10 +42,16 @@ export default function App() {
     setLoggedInUser(null);
   };
 
+  const onQuizDashboard = location.pathname.startsWith("/quizdashboard");
+
   return (
-    <Router>
-      <Navbar loggedInUser={loggedInUser} onLogout={handleLogout} />
+    <>
+      {!onQuizDashboard && (
+        <Navbar loggedInUser={loggedInUser} onLogout={handleLogout} />
+      )}
+
       <Routes>
+        {/* Main routes */}
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -44,7 +65,21 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Dashboard – NÄSTLA DIREKT HÄR (ingen extra <Routes> i en child-komponent) */}
+        <Route path="/quizdashboard" element={<QuizDashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="quiz" element={<QuizRun />} />
+        </Route>
       </Routes>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppInner />
     </Router>
   );
 }

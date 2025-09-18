@@ -234,6 +234,6 @@ body{
 .option input{ display:none; }
 .option .dot{ width:18px; height:18px; border-radius:50%; border:2px solid #111827; display:inline-block; }
 .option.selected .dot{ background:#111827; }
-.option .label{ font-size:14px; }
+.option .opt-label{ font-size:14px; color:#111827; display:inline; }
 .quiz-actions{ display:flex; justify-content:space-between; align-items:center; max-width:700px; margin:12px auto 0; }
 .quiz-score{ text-align:center; color:#6b7280; margin-top:10px; }
