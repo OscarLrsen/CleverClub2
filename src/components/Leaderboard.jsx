@@ -1,110 +1,103 @@
-// src/components/Leaderboard.jsx
 import { useEffect, useState } from "react";
-import { getLeaderboard } from "../api/Leaderboard";
+import { getLeaderboard } from "../api/leaderboard";
+import "../styles/Leaderboard.css";
+import Lottie from "lottie-react";
+import coinAnim from "../assets/coin.json";
+import firstP from "../assets/first.json";
 
-export default function Leaderboard({ limit = 50, refreshMs = 10000 }) {
+
+
+function Coin() {
+  return (
+    <Lottie
+      animationData={coinAnim} 
+      loop
+      autoplay
+      style={{ width: 22, height: 22 }}
+    />
+  );
+}
+
+export default function Leaderboard({ limit = 50, refreshMs = 10000, currentUser }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
 
-  async function load() {
-    try {
-      const data = await getLeaderboard({ limit });
-      setRows(Array.isArray(data) ? data : []);
-      setErr(null);
-    } catch (e) {
-      console.error(e);
-      setErr("Kunde inte hämta leaderboard just nu.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await getLeaderboard({ limit });
+        setRows(Array.isArray(data) ? data : []);
+        setErr(null);
+      } catch (e) {
+        console.error(e);
+        setErr("Kunde inte hämta leaderboard just nu.");
+      } finally {
+        setLoading(false);
+      }
+    };
     load();
-    const id = setInterval(load, refreshMs);
-    return () => clearInterval(id);
+    if (refreshMs > 0) {
+      const id = setInterval(load, refreshMs);
+      return () => clearInterval(id);
+    }
   }, [limit, refreshMs]);
 
   if (loading) return <p>Laddar leaderboard…</p>;
   if (err) return <p style={{ color: "red" }}>{err}</p>;
 
+  const FirstPlaceAnim = (
+  <Lottie
+    animationData={firstP}
+    loop
+    autoplay
+    style={{ width: 40, height: 40 }}
+  />
+);
+
+
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
-      <h2>Leaderboard (R/F)</h2>
-      <table width="100%" style={{ borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <Th>#</Th>
-            <Th>Användare</Th>
-            <Th>R</Th>
-            <Th>F</Th>
-            <Th>R/F</Th>
-            <Th>Accuracy</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((u, i) => (
-            <tr key={u.userId} style={{ borderTop: "1px solid #eee" }}>
-              <Td>{i + 1}</Td>
-              <Td>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <img
-                    src={u.avatarUrl || "/default.png"}
-                    width="24"
-                    height="24"
-                    alt=""
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                  />
-                  {u.username}
+    <div className="leaderboard-wrap">
+      <div className="leaderboard">
+        <div className="lb-title">Leaderboard</div>
+        <div className="lb-sub">Topplista baserad på total poäng och antal spel</div>
+
+        <div className="lb-header">
+          <div>RANK</div>
+          <div>ANVÄNDARE</div>
+          <div style={{ textAlign: "right" }}>POÄNG</div>
+          <div style={{ textAlign: "right" }}>TOTALA SPEL</div>
+        </div>
+
+        {rows.map((u, idx) => {
+          const rank = idx + 1;
+          const highlight = currentUser && u.username === currentUser;
+          return (
+            <div key={(u.username ?? "user") + "-" + idx}
+                 className={`lb-row${highlight ? " highlight" : ""}`}>
+              <div className="rank">
+                <div className="medal">
+                  {rank === 1 ? FirstPlaceAnim  : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank}
                 </div>
-              </Td>
-              <Td center>{u.totalCorrect}</Td>
-              <Td center>{u.totalIncorrect}</Td>
-              <Td center>{formatRF(u.kd, u.totalCorrect, u.totalIncorrect)}</Td>
-              <Td center>
-                {u.accuracy != null
-                  ? (u.accuracy * 100).toFixed(1) + "%"
-                  : "—"}
-              </Td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                #{rank}
+              </div>
+
+              <div className="user">
+                {u.username ?? "Okänd"}
+              </div>
+
+              <div className="score">
+                <span className="coin" aria-hidden>
+                  <Coin />   
+                </span>
+                {u.totalScore ?? 0}
+              </div>
+
+              <div className="attempts">{u.attempts ?? 0}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
-  );
-}
-
-function formatRF(kd, r, f) {
-  if (f === 0 && r > 0) return r.toFixed(2);
-  return (kd ?? 0).toFixed(2);
-}
-
-function Th({ children }) {
-  return (
-    <th
-      style={{
-        textAlign: "left",
-        fontWeight: 600,
-        padding: "8px 6px",
-        fontSize: 14,
-      }}
-    >
-      {children}
-    </th>
-  );
-}
-
-function Td({ children, center }) {
-  return (
-    <td
-      style={{
-        padding: "10px 6px",
-        textAlign: center ? "center" : "left",
-        fontSize: 14,
-      }}
-    >
-      {children}
-    </td>
   );
 }
