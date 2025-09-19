@@ -123,4 +123,44 @@ app.post("/api/attempts", async (req, res) => {
   }
 });
 
+
+//Leaderboard – toppresultat per användare
+//Leaderboard – totalpoäng över alla försök per användare
+app.get("/api/leaderboard", async (req, res) => {
+  try {
+    // bestäm hur många resultat som max ska hämtas
+    const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 50));
+
+    // MongoDB: summera poäng och räkna rundor per användare
+    const rows = await Attempts.aggregate([
+      {
+        $group: {
+          _id: "$username",                   // gruppera på username
+          totalScore: { $sum: "$totalScore" },// lägg ihop alla poäng
+          attempts: { $sum: 1 },              // räkna hur många gånger spelat
+          lastPlayed: { $max: "$createdAt" }, // senaste speldatum
+        },
+      },
+      {
+        $project: {
+          _id: 0,            // ta bort MongoDB:s interna _id
+          username: "$_id",  // byt namn till username
+          totalScore: 1,
+          attempts: 1,
+          lastPlayed: 1,
+        },
+      },
+      { $sort: { totalScore: -1, lastPlayed: -1 } }, // högst poäng först
+      { $limit: limit }, // bara topp X
+    ]).toArray();
+
+    // skicka resultatet till frontend
+    res.json(rows);
+  } catch (e) {
+    console.error("GET /api/leaderboard error:", e);
+    res.status(500).json({ message: "Serverfel vid hämtning av leaderboard" });
+  }
+});
+
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
