@@ -28,7 +28,7 @@ export default function LeaderboardPage() {
           textAlign: "center",
         }}
       >
-        🌍 Leaderboard
+        🌍 Topplista
       </h1>
 
       {/* Knappar */}

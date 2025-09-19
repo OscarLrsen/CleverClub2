@@ -1,6 +1,7 @@
 import "../styles/MainPage.css";
 import logo from "../assets/Cleverclub.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // + Link
+import Leaderboard from "../components/Leaderboard"; // + Leaderboard
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -38,6 +39,20 @@ export default function MainPage() {
             Lär dig nya platser samtidigt som du spelar!
           </p>
         </article>
+      </section>
+
+      <section className="home-leaderboard">
+        <div className="home-leaderboard-header">
+          <Link to="/leaderboard" className="home-leaderboard-link">
+            Se hela listan
+          </Link>
+        </div>
+
+        <div className="home-leaderboard-card">
+          <Leaderboard />
+          {/* Om din Leaderboard-komponent har stöd för att visa t.ex. top 5:
+              <Leaderboard limit={5} /> */}
+        </div>
       </section>
     </main>
   );
