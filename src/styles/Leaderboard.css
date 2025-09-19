@@ -1,8 +1,8 @@
 
 :root{
-  --bg:#0e4bd8;          
-  --bg-darker:#0b3fb6;
-  --row:#1657e6;
+  --bg:#144fd3;          
+  --bg-darker:#00939d;
+  --row:#00939d;
   --row-alt:#144fd3;
   --row-hover:#ffffff;
   --text:#e8f0ff;
@@ -93,7 +93,7 @@
   color:#fff; font-size:22px; font-weight:800; padding:16px 20px 0 20px;
 }
 
-.lb-sub{ color:var(--muted); padding:0 20px 10px 20px; font-size:14px; }
+.lb-sub{ color:white; padding:0 20px 10px 20px; font-size:14px;  }
 
 .lb-row.highlight{
   background:#fff; color:#1b2a4a;
