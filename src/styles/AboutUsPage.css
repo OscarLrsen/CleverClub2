@@ -13,7 +13,7 @@
   padding: clamp(16px, 2vw, 24px);
 }
 
-/* Header utan box */
+/* Header utaan box */
 .cc-about-header {
   max-width: 900px;
   margin: 0 auto clamp(20px, 4vw, 40px);

@@ -1,58 +1,37 @@
-import React from "react";
-import "./registerpage.css";
+import { useState } from "react";
+import API from "../services/api";
+import "../styles/RegisterPage.css";
 
-export default function RegisterPage() {
+function RegisterPage() {
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await API.post("/register", form);
+      alert(res.data.message);
+    } catch (err) {
+      alert("Registration failed");
+    }
+  };
+
   return (
-    <div className="reg-page">
-      <div className="reg-container">
-        <h1 className="reg-title">Registrera dig för CleverClub</h1>
-
-        <form className="reg-form">
-          <div className="field">
-            <label>Förnamn</label>
-            <input type="text" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>Efternamn</label>
-            <input type="text" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>Användarnamn</label>
-            <input type="text" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>E-post</label>
-            <input type="email" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>Ålder</label>
-            <input type="number" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>Lösenord</label>
-            <input type="password" placeholder="" />
-          </div>
-
-          <div className="field">
-            <label>Bekräfta lösenord</label>
-            <input type="password" placeholder="" />
-          </div>
-
-          {/* knappen gör inget (type="button") */}
-          <button type="button" className="reg-button">
-            Registrera dig
-          </button>
-
-          <p className="reg-footnote">
-            Har du redan ett konto? <a href="/login">Logga in</a>
-          </p>
-        </form>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input name="username" placeholder="Username" onChange={handleChange} />
+      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        onChange={handleChange}
+      />
+      <button type="submit">Register</button>
+    </form>
   );
 }
+
+export default RegisterPage;
