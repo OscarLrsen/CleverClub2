@@ -12,7 +12,7 @@ export default function AboutUsPage() {
         <article className="cc-about-card">
           <p>
             Vi är fem engagerade studenter –{" "}
-            <strong>Oscar, Kevin, Ricky, Benjamin och Ahmed</strong>, som
+            <strong>Ahmed, Benjamin, Kevin, Oscar och Ricky</strong>, som
             tillsammans har skapat <strong>CleverClub</strong>. Idén föddes ur
             vårt gemensamma intresse för lärande och teknik, och visionen att
             göra kunskap både roligare och mer lättillgänglig.
