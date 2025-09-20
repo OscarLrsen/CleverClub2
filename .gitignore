@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*.slnx.sqlite
+*.vsworkspace.json
+.vs/
+
+# IDE/Editor cache
+*.db
+*.wsuo
+*.backup.json
+documentlayout.json
