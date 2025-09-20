@@ -1,0 +1,132 @@
+:root {
+  --bg: #144fd3;
+  --bg-darker: #00939d;
+  --row: #00939d;
+  --row-alt: #144fd3;
+  --row-hover: #ffffff;
+  --text: #e8f0ff;
+  --muted: #bcd0ff;
+  --green: #2fd07d;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --radius: 18px;
+}
+
+.leaderboard-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.leaderboard {
+  width: 100%;
+  max-width: 980px;
+  background: linear-gradient(180deg, var(--bg), var(--bg-darker));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.lb-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 160px 160px;
+  gap: 0;
+  padding: 18px 20px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lb-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 160px 160px;
+  padding: 16px 20px;
+  align-items: center;
+  color: var(--text);
+  background: var(--row);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s, color 0.2s, transform 0.15s ease-out,
+    box-shadow 0.15s;
+}
+
+.lb-row:nth-child(odd) {
+  background: var(--row-alt);
+}
+
+.lb-row:hover {
+  background: var(--row-hover);
+  color: #1b2a4a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.medal {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.score {
+  justify-self: end;
+  font-weight: 800;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.coin {
+  color: var(--accent);
+}
+
+.attempts {
+  justify-self: end;
+  font-weight: 700;
+  color: var(--muted);
+  color: black;
+}
+
+.lb-title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  padding: 16px 20px 0 20px;
+}
+
+.lb-sub {
+  color: white;
+  padding: 0 20px 10px 20px;
+  font-size: 14px;
+}
+
+.lb-row.highlight {
+  background: #fff;
+  color: #1b2a4a;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18) inset;
+}

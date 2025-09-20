@@ -6,17 +6,17 @@
   margin-top: 72px;
 }
 
+.mainpage-logo {
+  display: block;
+  margin: 0 auto 12px;
+  height: 160px;
+  width: auto;
+}
+
 .mainpage-title {
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 800;
   margin-bottom: 12px;
-}
-
-.mainpage-logo {
-  display: block;
-  margin: 0 auto 12px; /* center + lite luft under */
-  height: 180px; /* justera storlek efter smak (t.ex. 56–96px) */
-  width: auto;
 }
 
 .mainpage-subtitle {
@@ -78,43 +78,4 @@
 .feature-desc {
   color: #6b7280;
   margin: 0;
-}
-
-/* ====== LEADERBOARD PÅ STARTSIDAN ====== */
-.home-leaderboard {
-  max-width: 900px;
-  margin: 48px auto 0;
-  padding: 0 4px;
-}
-
-.home-leaderboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.home-leaderboard-header h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.home-leaderboard-link {
-  font-weight: 600;
-  text-decoration: none;
-  color: #2563eb;
-}
-.home-leaderboard-link:hover {
-  text-decoration: underline;
-}
-
-/* Lite tajtare på små skärmar */
-@media (max-width: 480px) {
-  .home-leaderboard {
-    margin-top: 36px;
-  }
-  .home-leaderboard-header h2 {
-    font-size: 20px;
-  }
 }

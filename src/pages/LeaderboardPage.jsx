@@ -1,73 +1,52 @@
-// src/pages/LeaderboardPage.jsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Leaderboard from "../components/Leaderboard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "../styles/LeaderboardPage.css";
 
-export default function LeaderboardPage() {
-  const [refreshKey, setRefreshKey] = useState(0);
-  const navigate = useNavigate();
+function LeaderboardPage() {
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/quiz/leaderboard"
+        );
+        setResults(res.data);
+      } catch (err) {
+        console.error(" Kunde inte hämta resultat:", err);
+      }
+    };
+
+    fetchResults();
+  }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minHeight: "100vh",
-        backgroundColor: "#f5f5f5",
-        paddingTop: "60px",
-      }}
-    >
-      {/* Rubrik */}
-      <h1
-        style={{
-          fontSize: "2.5rem",
-          fontWeight: "bold",
-          marginBottom: "20px",
-          color: "#1976d2",
-          textAlign: "center",
-        }}
-      >
-        🌍 Topplista
-      </h1>
-
-      {/* Knappar */}
-      <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
-        <button
-          style={{
-            padding: "10px 20px",
-            borderRadius: 6,
-            border: "none",
-            backgroundColor: "#1976d2",
-            color: "white",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => setRefreshKey((prev) => prev + 1)}
-        >
-          🔄 Uppdatera
-        </button>
-
-        <button
-          style={{
-            padding: "10px 20px",
-            borderRadius: 6,
-            border: "none",
-            backgroundColor: "#1976d2",
-            color: "white",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => navigate("/")}
-        >
-          ⬅️ Tillbaka
-        </button>
-      </div>
-
-      {/* Leaderboard-tabellen */}
-      <div style={{ width: "100%", maxWidth: 900 }}>
-        <Leaderboard key={refreshKey} />
-      </div>
+    <div>
+      <h2> Topplista</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Användare</th>
+            <th>Poäng</th>
+            <th>Rätt</th>
+            <th>Datum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.map((r, i) => (
+            <tr key={r._id}>
+              <td>{i + 1}</td>
+              <td>{r.username}</td>
+              <td>{r.score}</td>
+              <td>{r.correctCount}</td>
+              <td>{new Date(r.date).toLocaleDateString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
+
+export default LeaderboardPage;

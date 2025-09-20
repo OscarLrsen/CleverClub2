@@ -1,5 +1,11 @@
-import express from "express";
 import User from "../models/user.js";
+import express from "express";
+import {
+  getAllQuestions,
+  deleteQuestion,
+  updateQuestion,
+  addQuestion,
+} from "../controllers/adminController.js";
 
 const router = express.Router();
 
@@ -23,5 +29,10 @@ router.delete("/users/:id", async (req, res) => {
     res.status(500).json({ message: "Kunde inte ta bort användare" });
   }
 });
+
+router.get("/questions", getAllQuestions);
+router.post("/questions", addQuestion);
+router.put("/questions/:id", updateQuestion);
+router.delete("/questions/:id", deleteQuestion);
 
 export default router;
