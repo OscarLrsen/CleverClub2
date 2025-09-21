@@ -37,7 +37,6 @@ function AdminPanel() {
       if (Array.isArray(res.data)) {
         setQuestions(res.data);
       } else {
-        console.warn(" Backend returnerade inte en array:", res.data);
         setQuestions([]);
       }
     } catch (err) {
