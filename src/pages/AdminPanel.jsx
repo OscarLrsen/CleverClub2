@@ -238,38 +238,43 @@ function AdminPanel() {
               <li key={q._id} className="question-item">
                 {editingId === q._id ? (
                   <div>
-                    <input
-                      value={editedQuestion.text}
-                      onChange={(e) =>
-                        setEditedQuestion({
-                          ...editedQuestion,
-                          text: e.target.value,
-                        })
-                      }
-                      placeholder="Frågetext"
-                    />
-                    <input
-                      value={editedQuestion.points}
-                      type="number"
-                      onChange={(e) =>
-                        setEditedQuestion({
-                          ...editedQuestion,
-                          points: Number(e.target.value),
-                        })
-                      }
-                      placeholder="Poäng"
-                    />
-                    <input
-                      value={editedQuestion.correctIndex}
-                      type="number"
-                      onChange={(e) =>
-                        setEditedQuestion({
-                          ...editedQuestion,
-                          correctIndex: Number(e.target.value),
-                        })
-                      }
-                      placeholder="Rätt index"
-                    />
+                    <textarea
+                        value={editedQuestion.text}
+                        onChange={(e) =>
+                          setEditedQuestion({
+                            ...editedQuestion,
+                            text: e.target.value,
+                          })
+                        }
+                        placeholder="Frågetext"
+                      />
+                    <div className="form-field form-field--half">
+                      <label>Poäng:</label>
+                      <select
+                        value={editedQuestion.points}
+                        onChange={(e) =>
+                          setEditedQuestion({ ...editedQuestion, points: Number(e.target.value) })
+                        }
+                      >
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </select>
+                    </div>
+                    
+                    <div className="form-field form-field--half">
+                        <label>Rätt svar:</label>
+                        <select
+                          value={editedQuestion.correctIndex}
+                          onChange={(e) =>
+                            setEditedQuestion({ ...editedQuestion, correctIndex: Number(e.target.value) })
+                          }
+                        >
+                          <option value={0}>Alternativ 1</option>
+                          <option value={1}>Alternativ 2</option>
+                          <option value={2}>Alternativ 3</option>
+                        </select>
+                      </div>
                     <input
                       value={editedQuestion.options[0]}
                       onChange={(e) => {
@@ -297,8 +302,8 @@ function AdminPanel() {
                       }}
                       placeholder="Alternativ 3"
                     />
-                    <button onClick={saveEdit}>Spara</button>
-                    <button onClick={cancelEdit}>Avbryt</button>
+                    <button className="action-btn save-btn" onClick={saveEdit}>Spara</button>
+                    <button className="action-btn cancel-btn" onClick={cancelEdit}>Avbryt</button>
                   </div>
                 ) : (
                   <div>

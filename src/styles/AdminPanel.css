@@ -147,6 +147,24 @@
   transform: scale(0.97);
 }
 
+.save-btn {
+  background: #22c55e; /* grön */
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.save-btn:hover {
+  background: #16a34a;
+}
+
+.cancel-btn {
+  background: #9ca3af; /* grå */
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #6b7280;
+}
 
 .delete-btn {
   background: #e63946;
@@ -176,6 +194,35 @@
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
+}
+
+.question-item select {
+  max-width: 120px;
+  padding: 0.4rem;
+}
+
+.question-item input {
+  display: block;
+  margin-bottom: 0.6rem; /* lagom spacing mellan alternativen */
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.question-item textarea {
+  width: 100%;
+  min-height: 80px;   /* gör den lagom hög från början */
+  padding: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: white;
+  resize: none;       /* användaren kan inte dra */
+  line-height: 1.4;
+}
+
+.question-item .form-field--half {
+  margin-bottom: 1rem; /* extra luft */
 }
 
 .user-item {
