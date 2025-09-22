@@ -8,7 +8,14 @@ export const getQuestions = async (req, res) => {
       { $match: { difficulty } },
       { $sample: { size: 5 } },
     ]);
-    res.json(questions);
+    res.json(
+      questions.map((q) => ({
+        _id: q._id,
+        text: q.text,
+        options: q.options,
+        correctIndex: q.correctIndex,
+      }))
+    );
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

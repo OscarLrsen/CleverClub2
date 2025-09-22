@@ -32,7 +32,7 @@ export default function App() {
     <Router>
       <Navbar loggedInUser={loggedInUser} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<MainPage loggedInUser={loggedInUser} />} />
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
