@@ -1,18 +1,23 @@
 import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
+import logo from "../../assets/Cleverclub.png";
 
 function Navbar({ loggedInUser, onLogout }) {
   return (
     <nav className="cc-navbar">
       <div className="cc-navbar-inner">
-        <Link to="/" className="cc-brand" id="cc-brand">
-          CleverClub
+        {/* Brand: bara logga, klickbar till startsidan */}
+        <Link
+          to="/"
+          className="cc-brand"
+          id="cc-brand"
+          aria-label="Gå till startsidan"
+          title="CleverClub"
+        >
+          <img src={logo} alt="CleverClub" className="cc-logo" />
         </Link>
 
         <div className="cc-links" id="cc-links">
-          <Link to="/" className="cc-link" id="nav-home">
-            Hem
-          </Link>
           <Link to="/leaderboard" className="cc-link" id="nav-leaderboard">
             Topplista
           </Link>

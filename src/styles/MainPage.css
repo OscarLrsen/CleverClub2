@@ -4,12 +4,16 @@
   padding: 0 20px;
   text-align: center;
   margin-top: 72px;
+
+  /* ---- Behövs för sidopanelerna bakom innehållet ---- */
+  position: relative;
+  isolation: isolate; /* gör att pseudo-element kan ligga bakom allt innehåll */
 }
 
 .mainpage-logo {
   display: block;
   margin: 0 auto 12px;
-  height: 160px;
+  height: 200px;
   width: auto;
 }
 
@@ -78,4 +82,92 @@
 .feature-desc {
   color: #6b7280;
   margin: 0;
+}
+
+/* ===========================
+   SIDOPANEL-BILDER (BAKGRUND)
+   =========================== */
+
+.mainpage-container::before,
+.mainpage-container::after {
+  content: "";
+  position: fixed; /* täcker höjd oberoende av scroll */
+  top: 64px; /* matcha din navbar-höjd */
+  bottom: 0;
+  width: min(28vw, 420px); /* responsiv panelbredd */
+  z-index: -1; /* bakom allt innehåll */
+  pointer-events: none; /* klick går igenom */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; /* fyll panelens yta snyggt */
+  opacity: 0.18; /* tona ned så texten vinner */
+  filter: saturate(0.9) contrast(1.05);
+}
+
+/* Vänster panel */
+.mainpage-container::before {
+  left: 0;
+  width: 50vw; /* halva skärmen */
+  background-image: url("../../assets/left-panel.png");
+  background-position: right center; /* “inre” kant mot mitten */
+}
+
+/* Höger panel */
+/* Höger halva – fyller från mitten till höger kant */
+.mainpage-container::after {
+  right: 0;
+  width: 50vw; /* halva skärmen */
+  background-image: url("../../assets/right-panel.png");
+  background-position: left center; /* “inre” kant mot mitten */
+}
+
+/* (valfritt) mjuk övergång i mitten */
+.mainpage-container::before {
+  mask-image: linear-gradient(to right, black 92%, transparent 100%);
+}
+.mainpage-container::after {
+  mask-image: linear-gradient(to left, black 92%, transparent 100%);
+}
+
+/* Responsiva justeringar */
+@media (max-width: 1200px) {
+  .mainpage-container::before,
+  .mainpage-container::after {
+    width: min(34vw, 380px);
+    opacity: 0.14;
+  }
+}
+
+@media (max-width: 900px) {
+  .mainpage-container::before,
+  .mainpage-container::after {
+    display: none; /* dölj panelerna på mobil för läsbarhet */
+  }
+}
+
+/* Home leaderboard (utan ram) */
+.home-leaderboard {
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding: 0 4px;
+  text-align: left;
+}
+.home-leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.home-leaderboard-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+.home-leaderboard-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: #2563eb;
+}
+.home-leaderboard-link:hover {
+  text-decoration: underline;
 }

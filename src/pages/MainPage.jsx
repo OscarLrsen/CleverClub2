@@ -1,9 +1,12 @@
 import "../styles/MainPage.css";
+import logo from "../../assets/Cleverclub.png";
+import HomeLeaderboard from "../components/Homeleaderboardfront.jsx";
 
 export default function MainPage() {
   return (
     <main className="mainpage-container">
-      <h1 className="mainpage-title">CleverClub</h1>
+      <img src={logo} alt="CleverClub" className="mainpage-logo" />
+
       <p className="mainpage-subtitle">
         CleverClub är en rolig och lärorik quiz-app där du kan testa dina
         geografikunskaper och lära dig mer om världen.
@@ -18,12 +21,10 @@ export default function MainPage() {
             Kan du placera världens länder och städer rätt?
           </p>
         </article>
-
         <article className="feature-card">
           <h3 className="feature-title">🧠 Utmanande quiz med 3 alternativ</h3>
           <p className="feature-desc">Bara ett är rätt, hur många klarar du?</p>
         </article>
-
         <article className="feature-card">
           <h3 className="feature-title">✈️ Res jorden runt från soffan</h3>
           <p className="feature-desc">
@@ -31,6 +32,7 @@ export default function MainPage() {
           </p>
         </article>
       </section>
+      <HomeLeaderboard />
     </main>
   );
 }
