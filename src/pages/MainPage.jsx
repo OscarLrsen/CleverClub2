@@ -1,6 +1,17 @@
 import "../styles/MainPage.css";
+import { useNavigate } from "react-router-dom";
 
-export default function MainPage() {
+export default function MainPage({ loggedInUser }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (loggedInUser && loggedInUser.username) {
+      navigate("/quiz"); // ✅ Inloggad → gå till quiz
+    } else {
+      navigate("/login"); // ❌ Inte inloggad → gå till login
+    }
+  };
+
   return (
     <main className="mainpage-container">
       <h1 className="mainpage-title">CleverClub</h1>
@@ -9,7 +20,9 @@ export default function MainPage() {
         geografikunskaper och lära dig mer om världen.
       </p>
 
-      <button className="mainpage-button">Börja spela gratis</button>
+      <button className="mainpage-button" onClick={handleClick}>
+        Börja spela gratis
+      </button>
 
       <section className="features">
         <article className="feature-card">

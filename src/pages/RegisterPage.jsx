@@ -20,17 +20,59 @@ function RegisterPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="username" placeholder="Username" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div className="reg-page">
+      <div className="reg-container">
+        <form onSubmit={handleSubmit} className="reg-form">
+          <h2 className="reg-title">Registrera dig</h2>
+
+          <div className="field">
+            <label htmlFor="username">Användarnamn</label>
+            <input
+              id="username"
+              name="username"
+              placeholder="Användarnamn"
+              value={form.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="email">E-post</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="E-post"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="field">
+            <label htmlFor="password">Lösenord</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Lösenord"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className="reg-button">
+            Registrera
+          </button>
+
+          <div className="reg-footnote">
+            {/* valfri länk eller info under knappen */}
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

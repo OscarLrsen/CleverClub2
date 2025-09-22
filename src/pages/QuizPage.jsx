@@ -79,7 +79,7 @@ function QuizPage({ loggedInUser }) {
     <div className="quiz-container">
       {score !== null && correctCount !== null && (
         <div className="quiz-result">
-          <h2> Quiz klart!</h2>
+          <h2>Quiz klart!</h2>
           <p>
             Du fick <strong>{correctCount}</strong> av{" "}
             <strong>{questions.length}</strong> rätt
@@ -87,7 +87,31 @@ function QuizPage({ loggedInUser }) {
           <p>
             Din poäng: <strong>{score}</strong>
           </p>
-          <button onClick={resetQuiz}> Kör igen</button>
+
+          <h3>Dina svar:</h3>
+          <ul className="quiz-review-list">
+            {questions.map((q) => {
+              const userAnswer = answers.find(
+                (a) => a.questionId === q._id
+              )?.selectedAnswer;
+              const isCorrect = userAnswer === q.correctIndex;
+
+              return (
+                <li key={q._id} className="quiz-review-item">
+                  <span className="quiz-review-question">{q.text}</span>
+                  <span
+                    className={`quiz-review-status ${
+                      isCorrect ? "correct" : "incorrect"
+                    }`}
+                  >
+                    {isCorrect ? "Rätt ✅" : "Fel ❌"}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+
+          <button onClick={resetQuiz}>Kör igen</button>
         </div>
       )}
 
