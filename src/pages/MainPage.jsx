@@ -1,5 +1,6 @@
 import "../styles/MainPage.css";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/Cleverclub.png";
 
 export default function MainPage({ loggedInUser }) {
   const navigate = useNavigate();

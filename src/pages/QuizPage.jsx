@@ -44,11 +44,13 @@ function QuizPage({ loggedInUser }) {
 
   const username = loggedInUser?.username;
 
-  const difficultyLabel = { easy: "Enkel", medium: "Medel", hard: "Svår" };
+  const difficultyLabel = { easy: "Lätt", medium: "Medel", hard: "Svår" };
 
   const startQuiz = async () => {
     try {
-      const res = await axios.get(`/api/quiz/questions?difficulty=${difficulty}`);
+      const res = await axios.get(
+        `/api/quiz/questions?difficulty=${difficulty}`
+      );
       if (res.data.length < 5) {
         alert("Inte tillräckligt med frågor för denna svårighetsgrad.");
         return;
@@ -117,26 +119,37 @@ function QuizPage({ loggedInUser }) {
             <h3>Dina svar:</h3>
             <ul className="quiz-review-list">
               {questions.map((q) => {
-                const userAnswer = answers.find((a) => a.questionId === q._id)?.selectedAnswer;
-                const isAnswered = userAnswer !== undefined && userAnswer !== null;
+                const userAnswer = answers.find(
+                  (a) => a.questionId === q._id
+                )?.selectedAnswer;
+                const isAnswered =
+                  userAnswer !== undefined && userAnswer !== null;
                 const isCorrect = isAnswered && userAnswer === q.correctIndex;
 
                 return (
                   <li
                     key={q._id}
                     className={`quiz-review-item ${
-                      !isAnswered ? "skipped" : isCorrect ? "correct" : "incorrect"
-                    }`}>
+                      !isAnswered
+                        ? "skipped"
+                        : isCorrect
+                        ? "correct"
+                        : "incorrect"
+                    }`}
+                  >
                     <span className="quiz-review-question">{q.text}</span>
                     <span
                       className={`quiz-review-status ${
-                        !isAnswered ? "skipped" : isCorrect ? "correct" : "incorrect"
+                        !isAnswered
+                          ? "skipped"
+                          : isCorrect
+                          ? "correct"
+                          : "incorrect"
                       }`}
                     >
                       {!isAnswered ? "Ej besvarad" : isCorrect ? "✅" : "❌"}
                     </span>
                   </li>
-
                 );
               })}
             </ul>
@@ -147,7 +160,6 @@ function QuizPage({ loggedInUser }) {
           </div>
         )}
 
-
         {/* start */}
         {!started && score === null && (
           <>
@@ -155,8 +167,9 @@ function QuizPage({ loggedInUser }) {
             <section className="select-wrap">
               <h2>Välj Svårighetsgrad</h2>
               <p className="lead">
-                Välj en svårighetsgrad som passar dina kunskaper och färdigheter.
-                Ju högre svårighetsgrad, desto mer utmanande blir frågorna.
+                Välj en svårighetsgrad som passar dina kunskaper och
+                färdigheter. Ju högre svårighetsgrad, desto mer utmanande blir
+                frågorna.
               </p>
 
               <div className="diff-list">

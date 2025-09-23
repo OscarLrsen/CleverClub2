@@ -27,10 +27,14 @@ function LeaderboardPage() {
     <div className="leaderboard-wrap">
       <div className="leaderboard">
         <div className="lb-header-row">
-          <h2 className="lb-heading">🌍 Topplista</h2>
+          <h2 className="lb-heading">Topplista</h2>
           <div className="lb-actions">
-            <button className="lb-btn" onClick={() => navigate("/")}>🏠 Hem</button>
-            <button className="lb-btn" onClick={fetchResults}>🔄 Uppdatera</button>
+            <button className="lb-btn" onClick={() => navigate("/")}>
+              Hem
+            </button>
+            <button className="lb-btn" onClick={fetchResults}>
+              Uppdatera
+            </button>
           </div>
         </div>
 
@@ -50,14 +54,23 @@ function LeaderboardPage() {
             <tbody>
               {results.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", color: "#64748b", padding: 18 }}>
+                  <td
+                    colSpan={5}
+                    style={{
+                      textAlign: "center",
+                      color: "#64748b",
+                      padding: 18,
+                    }}
+                  >
                     Inga resultat ännu.
                   </td>
                 </tr>
               ) : (
                 results.map((r, i) => (
                   <tr key={r._id || `${r.username}-${i}`}>
-                    <td><span className="rank-badge">{i + 1}</span></td>
+                    <td>
+                      <span className="rank-badge">{i + 1}</span>
+                    </td>
                     <td>{r.username}</td>
                     <td>{r.score}</td>
                     <td>{r.correctCount}</td>
